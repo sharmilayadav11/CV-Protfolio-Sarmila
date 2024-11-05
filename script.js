@@ -1,21 +1,21 @@
-// Smooth scroll for Links section
-document.querySelectorAll('.left-column a').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-            behavior: 'smooth'
-        });
-    });
-});
-
-// Animate progress bars when they come into view
-window.addEventListener('scroll', () => {
+document.addEventListener("DOMContentLoaded", function () {
+    // Animate progress bars when they come into view
     const progressBars = document.querySelectorAll('.progress');
-    progressBars.forEach(bar => {
-        const barPosition = bar.getBoundingClientRect().top;
-        const windowHeight = window.innerHeight;
-        if (barPosition < windowHeight) {
-            bar.style.width = bar.getAttribute('data-progress') + '%';
-        }
-    });
+    const animateProgressBars = () => {
+        progressBars.forEach(bar => {
+            const barPosition = bar.getBoundingClientRect().top;
+            const windowHeight = window.innerHeight;
+            const progressWidth = bar.getAttribute('data-progress');
+
+            if (barPosition < windowHeight - 50) { // Add buffer for when it becomes visible
+                bar.style.width = progressWidth + '%';
+            }
+        });
+    };
+
+    // Run animation on scroll
+    window.addEventListener('scroll', animateProgressBars);
+
+    // Run animation on load in case elements are already in view
+    animateProgressBars();
 });
